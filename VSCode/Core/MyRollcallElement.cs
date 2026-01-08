@@ -242,13 +242,21 @@ namespace TFModFortRiseCustomName
       if (input == null)
         return true;
       InputState inputState = input.Invoke<InputState>("GetState");
-      if (inputState.ArrowsPressed)
+      if ((getCurrentNameIndex(playerIndex) != -1))
       {
-        __instance.Scene.Add(new VirtualKeyboard(playerIndex));
-      }
-      //move to next name
-      if ((bool)input.Get("MenuAlt2")){
-        SetPlayerName(playerIndex, getNextName(playerIndex));
+        if (inputState.ArrowsPressed && inputState.MoveY == -1)
+        {
+          __instance.Scene.Add(new VirtualKeyboard(playerIndex));
+        }
+        else if (inputState.ArrowsPressed)
+        {
+          //self.Scene.Add(new VirtualKeyboard(playerIndex));
+          SetPlayerName(playerIndex, getNextName(playerIndex));
+        }
+        //move to next name
+        //if ((bool)input.Get("MenuAlt2")){
+        //  SetPlayerName(playerIndex, getNextName(playerIndex));
+        //}
       }
       dynData.Dispose();
 

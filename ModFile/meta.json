@@ -1,6 +1,6 @@
 {
 	"name": "CustomName",
-	"version": "1.0.3",
+	"version": "1.0.4",
 	"author": "ebe1.kenobi",
 	"description": "Use custom name instead of P1 P2 ...",
 	"dll": "TFModFortRiseCustomName.dll",
