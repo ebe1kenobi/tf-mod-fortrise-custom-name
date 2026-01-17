@@ -9,5 +9,11 @@
 			"name": "FortRise",
 			"version": "5.2.3"
 		}
+	],
+	"optionalDependencies": [
+		{
+			"name": "Teuria.WiderSet",
+			"version": "0.7.0"
+		}
 	]
 }

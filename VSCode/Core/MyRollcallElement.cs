@@ -87,7 +87,7 @@ namespace TFModFortRiseCustomName
         if (positionText == null) return;
 
         // we must update the Y position because the constructor is called only once if we change between 4 ou 8player mode
-        if (EightPlayerImport.LaunchedEightPlayer())
+        if (WiderSetHelper.IsWide)
         {   //Don't work
           positionText.Position.Y = -40;
         }
@@ -100,14 +100,13 @@ namespace TFModFortRiseCustomName
 
     public static void ctor_patch(RollcallElement __instance, int playerIndex)
     {
-      typeof(EightPlayerImport).ModInterop();
       var dynData = DynamicData.For(__instance);
 
       Color color = Color.White;
       Vector2 positionText;
       if (TFGame.Players.Length > 4)
       {
-        if (EightPlayerImport.LaunchedEightPlayer()) { 
+        if (WiderSetHelper.IsWide) { 
           positionText = new Vector2(-30, -40);
         } else {
           positionText = new Vector2(-30, -60);  

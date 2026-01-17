@@ -1,22 +1,15 @@
-﻿using MonoMod.ModInterop;
-using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection.Emit;
-using System.Runtime.CompilerServices;
-using System.Xml;
+﻿using System;
 using FortRise;
-using HarmonyLib;
 using Microsoft.Extensions.Logging;
-using Microsoft.Xna.Framework;
-using Monocle;
-using TowerFall;
+using Teuria.WiderSet;
 
 namespace TFModFortRiseCustomName
 {
   public class TFModFortRiseCustomNameModule : Mod 
   {
     public static TFModFortRiseCustomNameModule Instance;
+    public static IWiderSetModApi WiderSet;
+
     //public static TFModFortRiseCustomNameSettings Settings => Instance.GetSettings<TFModFortRiseCustomNameSettings>()!;
 
     internal Type[] Hookables = [
@@ -40,6 +33,8 @@ namespace TFModFortRiseCustomName
       {
         hookable.GetMethod(nameof(IHookable.Load))!.Invoke(null, [context.Harmony]);
       }
+
+      WiderSet = context.Interop.GetApi<IWiderSetModApi>("Teuria.WiderSet");
 
       //typeof(ModExports).ModInterop();
     }

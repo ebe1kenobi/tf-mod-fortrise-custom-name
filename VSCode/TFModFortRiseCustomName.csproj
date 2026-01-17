@@ -3,10 +3,18 @@
   <PropertyGroup>
     <TargetFramework>net10.0</TargetFramework>
     <ModLoaderPath>C:\Program Files (x86)\Steam\steamapps\common\TowerFall\FortRise</ModLoaderPath>
+
+    <ModVersion>1.0.3</ModVersion>
   </PropertyGroup>
 
   <ItemGroup>
     <PackageReference Include="FortRise.Configuration" Version="1.5.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Content Include="../ModFile/meta.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </Content>
   </ItemGroup>
 
 </Project>
