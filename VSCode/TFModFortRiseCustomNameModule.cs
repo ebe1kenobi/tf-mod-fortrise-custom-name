@@ -14,7 +14,7 @@ using TowerFall;
 
 namespace TFModFortRiseCustomName
 {
-  public class TFModFortRiseCustomNameModule : Mod
+  public class TFModFortRiseCustomNameModule : Mod 
   {
     public static TFModFortRiseCustomNameModule Instance;
     //public static TFModFortRiseCustomNameSettings Settings => Instance.GetSettings<TFModFortRiseCustomNameSettings>()!;

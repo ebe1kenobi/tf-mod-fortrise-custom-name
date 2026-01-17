@@ -4,14 +4,15 @@ using System.IO;
 using Microsoft.Extensions.Logging;
 //using Newtonsoft.Json;
 using System.Text.Json;
+using FortRise;
 
 
 namespace TFModFortRiseCustomName
 {
   public static class PlayerNameStorage
   {
-    public static string filePath = @".\FortRise\Mods\tf-mod-fortrise-custom-name\playerName.json";
-
+    //public static string filePath = @".\FortRise\Mods\tf-mod-fortrise-custom-name\playerName.json";
+    public static string filePath = Path.Combine(ModIO.GetRootPath(), "Saves", TFModFortRiseCustomNameModule.Instance.Meta.Name, $"{TFModFortRiseCustomNameModule.Instance.Meta.Name}.playerName.json");
     // ----------------------------------------------------
     // SAVE NAMES TO FILE
     // ----------------------------------------------------
