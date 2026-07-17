@@ -1,11 +1,12 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using System.Collections.Generic;
+//using System.Drawing;
+using System.Security.Policy;
+using System.Xml.Linq;
+using Microsoft.Xna.Framework;
 using Monocle;
 using MonoMod.ModInterop;
 using MonoMod.Utils;
-using System;
-using System.Collections.Generic;
-using System.Security.Policy;
-using System.Xml.Linq;
 using TowerFall;
 
 
@@ -97,34 +98,90 @@ namespace TFModFortRiseCustomName
       orig(self, playerIndex);
       var dynData = DynamicData.For(self);
 
-      Color color = Color.White;
-      Vector2 positionText;
-      if (TFGame.Players.Length > 4)
-      {
-        if (EightPlayerImport.LaunchedEightPlayer()) { 
-          positionText = new Vector2(-30, -40);
-        } else {
-          positionText = new Vector2(-30, -60);  
-        }
-      }
-      else
-      {
-        positionText = new Vector2(-30, -60); 
-      }
-      //to do once for the game
-      if (!playerName.ContainsKey(playerIndex)) {
-        String name = playerNamesAvailable[0] + (playerIndex + 1);
-        playerName[playerIndex] = name;
-        playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
-      }
+      setInfoPlayerName(playerIndex);
+
+      //Color color = Color.White;
+      //Vector2 positionText;
+      //if (TFGame.Players.Length > 4)
+      //{
+      //  if (EightPlayerImport.LaunchedEightPlayer()) { 
+      //    positionText = new Vector2(-30, -40);
+      //  } else {
+      //    positionText = new Vector2(-30, -60);  
+      //  }
+      //}
+      //else
+      //{
+      //  positionText = new Vector2(-30, -60); 
+      //}
+      ////to do once for the game
+      //if (!playerName.ContainsKey(playerIndex)) {
+      //  String name = playerNamesAvailable[0] + (playerIndex + 1);
+      //  playerName[playerIndex] = name;
+      //  playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
+      //}
 
       self.Add((Component)playerNameText[playerIndex]);
 
       dynData.Dispose();
     }
 
+    public static void setInfoPlayerName(int playerIndex) {
+        //todooooooooooooooooooooooooooooooooooooooo 
+        // fait ^pour tournamennt qui ne charge pas archer screen
+        Color color = Color.White;
+        Vector2 positionText;
+        if (TFGame.Players.Length > 4)
+        {
+          if (EightPlayerImport.LaunchedEightPlayer != null && EightPlayerImport.LaunchedEightPlayer())
+          {
+            positionText = new Vector2(-30, -40);
+          }
+          else
+          {
+            positionText = new Vector2(-30, -60);
+          }
+        }
+        else
+        {
+          positionText = new Vector2(-30, -60);
+        }
+        if (!playerName.ContainsKey(playerIndex))
+        {
+          String name = playerNamesAvailable[0] + (playerIndex + 1);
+          playerName[playerIndex] = name;
+          playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
+        }
+      }
+
     public static void SetPlayerName(int playerIndex, String newName)
     {
+      setInfoPlayerName(playerIndex);
+      // fait ^pour tournamennt qui ne charge pas archer screen
+      //Color color = Color.White;
+      //Vector2 positionText;
+      //if (TFGame.Players.Length > 4)
+      //{
+      //  if (EightPlayerImport.LaunchedEightPlayer != null && EightPlayerImport.LaunchedEightPlayer())
+      //  {
+      //    positionText = new Vector2(-30, -40);
+      //  }
+      //  else
+      //  {
+      //    positionText = new Vector2(-30, -60);
+      //  }
+      //}
+      //else
+      //{
+      //  positionText = new Vector2(-30, -60);
+      //}
+      //if (!playerName.ContainsKey(playerIndex))
+      //{
+      //  String name = playerNamesAvailable[0] + (playerIndex + 1);
+      //  playerName[playerIndex] = name;
+      //  playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
+      //}
+
       playerName[playerIndex] = newName;
       var dynData = DynamicData.For(playerNameText[playerIndex]);
       dynData.Set("text", newName);

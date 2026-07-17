@@ -1,6 +1,6 @@
 {
 	"name": "Custom Name",
-	"version": "0.0.5",
+	"version": "0.0.6",
 	"author": "ebe1.kenobi",
 	"required": "4.1.0",
 	"description": "Use custom name instead of P1 P2 ...",
