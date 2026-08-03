@@ -102,34 +102,47 @@ namespace TFModFortRiseCustomName
     {
       var dynData = DynamicData.For(__instance);
 
-      Color color = Color.White;
-      Vector2 positionText;
-      if (TFGame.Players.Length > 4)
-      {
-        if (WiderSetHelper.IsWide) { 
-          positionText = new Vector2(-30, -40);
-        } else {
-          positionText = new Vector2(-30, -60);  
-        }
-      }
-      else
-      {
-        positionText = new Vector2(-30, -60); 
-      }
-      //to do once for the game
-      if (!playerName.ContainsKey(playerIndex)) {
-        String name = playerNamesAvailable[0] + (playerIndex + 1);
-        playerName[playerIndex] = name;
-        playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
-      }
+      setInfoPlayerName(playerIndex);
 
       __instance.Add((Component)playerNameText[playerIndex]);
 
       dynData.Dispose();
     }
 
+    // Initialise playerName/playerNameText a la demande. Necessaire pour le mode
+    // tournoi qui ne charge pas l'ecran de selection d'archer : ctor_patch n'y est
+    // jamais appele, donc sans cette init paresseuse SetPlayerName planterait sur
+    // playerNameText[playerIndex] (KeyNotFoundException).
+    public static void setInfoPlayerName(int playerIndex)
+    {
+      Color color = Color.White;
+      Vector2 positionText;
+      if (TFGame.Players.Length > 4)
+      {
+        if (WiderSetHelper.IsWide)
+        {
+          positionText = new Vector2(-30, -40);
+        }
+        else
+        {
+          positionText = new Vector2(-30, -60);
+        }
+      }
+      else
+      {
+        positionText = new Vector2(-30, -60);
+      }
+      if (!playerName.ContainsKey(playerIndex))
+      {
+        String name = playerNamesAvailable[0] + (playerIndex + 1);
+        playerName[playerIndex] = name;
+        playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
+      }
+    }
+
     public static void SetPlayerName(int playerIndex, String newName)
     {
+      setInfoPlayerName(playerIndex);
       playerName[playerIndex] = newName;
       var dynData = DynamicData.For(playerNameText[playerIndex]);
       dynData.Set("text", newName);
