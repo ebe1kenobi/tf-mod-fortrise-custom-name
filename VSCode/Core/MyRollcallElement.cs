@@ -61,6 +61,10 @@ namespace TFModFortRiseCustomName
 
 
     public static void Render_patch(RollcallElement __instance ){
+      // Profiles affiche lui-meme le nom sous le portrait : il n'y a plus de Text a
+      // repositionner, et le chercher ne rendrait rien.
+      if (ProfilesImport.HandlesRollcall) return;
+
       if (TFGame.Players.Length > 4)
       {
         int currentPlayerIndex = DynamicData.For(__instance).Get<int>("playerIndex");
@@ -102,9 +106,15 @@ namespace TFModFortRiseCustomName
     {
       var dynData = DynamicData.For(__instance);
 
+      // L'initialisation a lieu dans les deux cas : le reste du mod (indicateur de
+      // joueur, resultats de manche) lit playerName et planterait sur une entree
+      // absente. Seul l'affichage sur l'ecran de selection est cede a Profiles.
       setInfoPlayerName(playerIndex);
 
-      __instance.Add((Component)playerNameText[playerIndex]);
+      if (!ProfilesImport.HandlesRollcall)
+      {
+        __instance.Add((Component)playerNameText[playerIndex]);
+      }
 
       dynData.Dispose();
     }
@@ -134,7 +144,11 @@ namespace TFModFortRiseCustomName
       }
       if (!playerName.ContainsKey(playerIndex))
       {
-        String name = playerNamesAvailable[0] + (playerIndex + 1);
+        // playerNamesAvailable est rempli en tache de fond au chargement du jeu et
+        // peut etre encore vide, ou le rester si le fichier de noms est absent. Le
+        // prefixe "P" est celui que la liste porte en tete quand elle existe.
+        String prefix = playerNamesAvailable.Count > 0 ? playerNamesAvailable[0] : "P";
+        String name = prefix + (playerIndex + 1);
         playerName[playerIndex] = name;
         playerNameText[playerIndex] = new Text(TFGame.Font, name, positionText, color, Text.HorizontalAlign.Left, Text.VerticalAlign.Bottom);
       }
@@ -151,6 +165,20 @@ namespace TFModFortRiseCustomName
 
     public static String GetPlayerName(int playerIndex)
     {
+      // Quand Profiles tient le rollcall, c'est lui qui decide du nom : l'indicateur
+      // de joueur et les resultats de manche doivent montrer le profil choisi. La
+      // table locale est mise a jour au passage pour que tout ce qui la lit
+      // directement reste coherent.
+      string fromProfile = ProfilesImport.NameOf(playerIndex);
+      if (fromProfile != null)
+      {
+        SetPlayerName(playerIndex, fromProfile);
+        return fromProfile;
+      }
+
+      // Les modes qui ne passent pas par l'ecran de selection n'ont jamais fait
+      // l'initialisation : sans cet appel, la lecture leve KeyNotFoundException.
+      setInfoPlayerName(playerIndex);
       return playerName[playerIndex];
     }
 
@@ -239,6 +267,13 @@ namespace TFModFortRiseCustomName
 
     public static bool NotJoinedUpdate_patch(RollcallElement __instance)
     {
+      // Profiles lit le meme bouton (Y / "arrows") pour faire defiler ses profils :
+      // sans ce retrait, une pression declencherait les deux cyclages a la fois.
+      if (ProfilesImport.HandlesRollcall)
+      {
+        return true;
+      }
+
       if (VirtualKeyboard.KeyboardActive)
       {
         return false; // ignore l’input, le Rollcall ne réagit pas

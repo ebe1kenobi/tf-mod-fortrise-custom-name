@@ -4,7 +4,7 @@
     <TargetFramework>net10.0</TargetFramework>
     <ModLoaderPath>C:\Program Files (x86)\Steam\steamapps\common\TowerFall\FortRise</ModLoaderPath>
 
-    <ModVersion>1.0.5</ModVersion>
+    <ModVersion>1.0.6</ModVersion>
   </PropertyGroup>
 
   <ItemGroup>

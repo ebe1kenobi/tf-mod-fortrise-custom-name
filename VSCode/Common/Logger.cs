@@ -23,20 +23,23 @@ namespace TFModFortRiseCustomName
       logger = new CustomLogger(path);
     }
 
+    // Init() n'est pas appele au demarrage : le journal est optionnel. Sans le test,
+    // la moindre trace ferait un NullReferenceException, y compris celles ecrites
+    // depuis un bloc catch - ou l'exception de secours masquerait l'erreur d'origine.
     public static void WriteLine(string message) {
-      logger.WriteLine(message);
+      logger?.WriteLine(message);
     }
 
     public static void Log(string message, string level) {
-      logger.Log(message, level);
+      logger?.Log(message, level);
     }
 
     public static void Error(string message) {
-      logger.Error(message);
+      logger?.Error(message);
     }
 
     public static void Info(string message) {
-      logger.Info(message);
+      logger?.Info(message);
     }
   }
 }

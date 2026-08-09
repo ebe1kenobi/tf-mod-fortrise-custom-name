@@ -36,6 +36,10 @@ namespace TFModFortRiseCustomName
 
       WiderSet = context.Interop.GetApi<IWiderSetModApi>("Teuria.WiderSet");
 
+      // Rend null si Profiles n'est pas installe, auquel cas CustomName garde tout
+      // son comportement d'origine sur l'ecran de selection des archers.
+      ProfilesImport.Api = context.Interop.GetApi<IProfilesModApi>("Profiles");
+
       //typeof(ModExports).ModInterop();
     }
 

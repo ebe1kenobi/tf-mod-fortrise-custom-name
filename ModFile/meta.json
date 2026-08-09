@@ -1,6 +1,6 @@
 {
 	"name": "CustomName",
-	"version": "1.0.5",
+	"version": "1.0.6",
 	"author": "ebe1.kenobi",
 	"description": "Use custom name instead of P1 P2 ...",
 	"dll": "TFModFortRiseCustomName.dll",
@@ -14,6 +14,10 @@
 		{
 			"name": "Teuria.WiderSet",
 			"version": "0.9.0"
+		},
+		{
+			"name": "Profiles",
+			"version": "0.1.0"
 		}
 	]
 }
